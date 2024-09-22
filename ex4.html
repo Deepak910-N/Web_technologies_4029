@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Famous Athlete Voting Poll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group input[type="radio"] {
+            margin-right: 10px;
+        }
+        .form-group .gender-label {
+            display: inline;
+            margin-right: 10px;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            display: none; /* Hide result by default */
+            margin-top: 20px;
+            padding: 10px;
+            background: #e7f1ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Famous Athlete Voting Poll</h1>
+        <form id="votingForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="regno">Mobile Number:</label>
+                <input type="text" id="regno" name="regno" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label>Gender:</label>
+                <label class="gender-label">
+                    <input type="radio" id="male" name="gender" value="male" required> Male
+                </label>
+                <label class="gender-label">
+                    <input type="radio" id="female" name="gender" value="female" required> Female
+                </label>
+                <label class="gender-label">
+                    <input type="radio" id="other" name="gender" value="other" required> Other
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="athlete">Vote for Your Favorite Athlete:</label>
+                <select id="athlete" name="athlete" required>
+                    <option value="" disabled selected>Select your favorite athlete</option>
+                    <option value="Lionel Messi">Lionel Messi</option>
+                    <option value="LeBron James">LeBron James</option>
+                    <option value="Cristiano Ronaldo">Cristiano Ronaldo</option>
+                    <option value="Serena Williams">Serena Williams</option>
+                    <option value="Simone Biles">Simone Biles</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="handleSubmit()">Submit Vote</button>
+            </div>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // A simple object to store votes locally
+        const votes = {
+            "Lionel Messi": 50,
+            "LeBron James": 251,
+            "Cristiano Ronaldo": 320,
+            "Serena Williams": 34,
+            "Simone Biles": 11
+        };
+
+        function handleSubmit() {
+            // Get form elements
+            const name = document.getElementById('name').value;
+            const regno = document.getElementById('regno').value;
+            const dob = document.getElementById('dob').value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value;
+            const athlete = document.getElementById('athlete').value;
+
+            // Validate inputs
+            if (!name || !regno || !dob || !gender || !athlete) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            // Increment the vote for the selected athlete
+            votes[athlete] += 1;
+
+            // Display results
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h3>Thank you for voting!</h3>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Mobile Number:</strong> ${regno}</p>
+                <p><strong>Date of Birth:</strong> ${dob}</p>
+                <p><strong>Gender:</strong> ${gender}</p>
+                <p><strong>Your Favorite Athlete:</strong> ${athlete}</p>
+                <h4>Current Poll Results:</h4>
+                <ul>
+                    <li>Lionel Messi: ${votes["Lionel Messi"]} votes</li>
+                    <li>LeBron James: ${votes["LeBron James"]} votes</li>
+                    <li>Cristiano Ronaldo: ${votes["Cristiano Ronaldo"]} votes</li>
+                    <li>Serena Williams: ${votes["Serena Williams"]} votes</li>
+                    <li>Simone Biles: ${votes["Simone Biles"]} votes</li>
+                </ul>
+            `;
+            resultDiv.style.display = 'block'; // Show result
+        }
+    </script>
+</body>
+</html>
