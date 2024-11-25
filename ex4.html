@@ -3,200 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Famous Athlete Voting Poll</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="date"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .form-group input[type="radio"] {
-            margin-right: 10px;
-        }
-        .form-group .gender-label {
-            display: inline;
-            margin-right: 10px;
-        }
-        .form-group button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
-        }
-        .result {
-            display: none; /* Hide result by default */
-            margin-top: 20px;
-            padding: 10px;
-            background: #e7f1ff;
-            border: 1px solid #b3d9ff;
-            border-radius: 4px;
-        }
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-    </style>
+    <title>Interactive Website</title>
+    <link rel="stylesheet" href="ex4.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Famous Athlete Voting Poll</h1>
-        <form id="votingForm">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-                <div id="nameError" class="error-message" style="display:none;">Numbers are not eligible in this field.</div>
+    <div class="outer-container">
+        <div class="container-wrapper">
+            <div id="time1" class="shadow-box">
+                <button id="showTimeButton">Show Current Time</button>
+                <div id="time"></div>
             </div>
-            <div class="form-group">
-                <label for="regno">Mobile Number:</label>
-                <input type="text" id="regno" name="regno" required>
-                <div id="regnoError" class="error-message" style="display:none;">Please enter a valid 10-digit mobile number.</div>
+
+           
+            <div class="container shadow-box">
+                <img src="oly.png" alt="Olympics" class="image">
+                <div class="text">You hovered over the image!</div>
             </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required>
-                <div id="dobError" class="error-message" style="display:none;">You must be at least 18 years old.</div>
-            </div>
-            <div class="form-group">
-                <label>Gender:</label>
-                <label class="gender-label">
-                    <input type="radio" id="male" name="gender" value="male" required> Male
-                </label>
-                <label class="gender-label">
-                    <input type="radio" id="female" name="gender" value="female" required> Female
-                </label>
-                <label class="gender-label">
-                    <input type="radio" id="other" name="gender" value="other" required> Other
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="athlete">Vote for Your Favorite Athlete:</label>
-                <select id="athlete" name="athlete" required>
-                    <option value="" disabled selected>Select your favorite athlete</option>
-                    <option value="Lionel Messi">Lionel Messi</option>
-                    <option value="LeBron James">LeBron James</option>
-                    <option value="Cristiano Ronaldo">Cristiano Ronaldo</option>
-                    <option value="Serena Williams">Serena Williams</option>
-                    <option value="Simone Biles">Simone Biles</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <button type="button" onclick="handleSubmit()">Submit Vote</button>
-            </div>
-        </form>
-        <div class="result" id="result"></div>
+            <button id="changeBgButton" class="shadow-box">Click to Change Background Color</button>
+
+            <div id="hoverText" class="shadow-box">Hover over this text</div>
+        </div>
     </div>
 
     <script>
-        // A simple object to store votes locally
-        const votes = {
-            "Lionel Messi": 50,
-            "LeBron James": 251,
-            "Cristiano Ronaldo": 320,
-            "Serena Williams": 34,
-            "Simone Biles": 11
-        };
+       
+        let interval;
+        document.getElementById('showTimeButton').addEventListener('click', function () {
+            clearInterval(interval);
+            updateTime();
+            interval = setInterval(updateTime, 1000);
+        });
 
-        function handleSubmit() {
-            // Get form elements
-            const name = document.getElementById('name').value;
-            const regno = document.getElementById('regno').value;
-            const dob = document.getElementById('dob').value;
-            const gender = document.querySelector('input[name="gender"]:checked')?.value;
-            const athlete = document.getElementById('athlete').value;
-
-            // Validate inputs
-            if (!name || !regno || !dob || !gender || !athlete) {
-                alert('Please fill out all fields.');
-                return;
-            }
-
-            // Check if the name contains numbers
-            if (/\d/.test(name)) {
-                document.getElementById('nameError').style.display = 'block';
-                return;
-            } else {
-                document.getElementById('nameError').style.display = 'none';
-            }
-
-            // Validate mobile number (10 digits)
-            const mobileRegex = /^\d{10}$/;
-            if (!mobileRegex.test(regno)) {
-                document.getElementById('regnoError').style.display = 'block';
-                return;
-            } else {
-                document.getElementById('regnoError').style.display = 'none';
-            }
-
-            // Validate date of birth (must be at least 18 years old)
-            const today = new Date();
-            const birthDate = new Date(dob);
-            const age = today.getFullYear() - birthDate.getFullYear();
-            const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-
-            if (age < 18) {
-                document.getElementById('dobError').style.display = 'block';
-                return;
-            } else {
-                document.getElementById('dobError').style.display = 'none';
-            }
-
-            // Increment the vote for the selected athlete
-            votes[athlete] += 1;
-
-            // Display results
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <h3>Thank you for voting!</h3>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Mobile Number:</strong> ${regno}</p>
-                <p><strong>Date of Birth:</strong> ${dob}</p>
-                <p><strong>Gender:</strong> ${gender}</p>
-                <p><strong>Your Favorite Athlete:</strong> ${athlete}</p>
-                <h4>Current Poll Results:</h4>
-                <ul>
-                    <li>Lionel Messi: ${votes["Lionel Messi"]} votes</li>
-                    <li>LeBron James: ${votes["LeBron James"]} votes</li>
-                    <li>Cristiano Ronaldo: ${votes["Cristiano Ronaldo"]} votes</li>
-                    <li>Serena Williams: ${votes["Serena Williams"]} votes</li>
-                    <li>Simone Biles: ${votes["Simone Biles"]} votes</li>
-                </ul>
-            `;
-            resultDiv.style.display = 'block'; // Show result
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('time').textContent = timeString;
         }
+
+      
+        const changeBgButton = document.getElementById('changeBgButton');
+        changeBgButton.addEventListener('click', () => {
+            document.body.style.backgroundColor = getRandomColor();
+        });
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+       
+        const hoverText = document.getElementById('hoverText');
+        hoverText.addEventListener('mouseenter', () => {
+            hoverText.textContent = 'Mouse In';
+        });
+
+        hoverText.addEventListener('mouseleave', () => {
+            hoverText.textContent = 'Mouse Out';
+        });
+
+    
+        const imageContainer = document.querySelector('.container');
+        const text = document.querySelector('.text');
+
+        imageContainer.addEventListener('mouseenter', () => {
+            text.style.display = 'block';
+        });
+
+        imageContainer.addEventListener('mouseleave', () => {
+            text.style.display = 'none';
+        });
     </script>
 </body>
 </html>
