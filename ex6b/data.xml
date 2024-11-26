@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<olympics>
+    <event>
+        <name>100m Sprint</name>
+        <venue>Olympic Stadium</venue>
+        <participants>8</participants>
+    </event>
+    <event>
+        <name>Swimming - 200m Freestyle</name>
+        <venue>Aquatics Center</venue>
+        <participants>16</participants>
+    </event>
+    <event>
+        <name>Gymnastics - Team Final</name>
+        <venue>Gymnastics Arena</venue>
+        <participants>12</participants>
+    </event>
+</olympics>
